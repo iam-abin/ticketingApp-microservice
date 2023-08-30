@@ -13,7 +13,7 @@ spec:
         app: auth
     spec: 
       containers: 
-        - name:auth
+        - name: auth
           image: abinv/auth
 ---
 apiVersion: v1
@@ -25,6 +25,6 @@ spec:
     app: auth
   ports: 
     - name: auth
-    protocol: TCP
-    port: 3000
-    targetPort: 3000
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

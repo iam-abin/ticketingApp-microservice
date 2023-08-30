@@ -1,18 +1,18 @@
-apiVersion: scaffold/v2alpha3
+apiVersion: skaffold/v2alpha3
 kind: Config
-deploy: 
-  kubectl: 
+deploy:
+  kubectl:
     manifests:
       - ./infra/k8s/*
 build:
   local:
-    push: flase
+    push: false
   artifacts:
     - image: abinv/auth
       context: auth
       docker:
         dockerfile: Dockerfile
-      sync: 
-        manual: 
+      sync:
+        manual:
           - src: 'src/**/*.ts'
             dest: .
