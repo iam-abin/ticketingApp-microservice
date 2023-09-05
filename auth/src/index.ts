@@ -1,15 +1,31 @@
-import express from 'express';
-import { json }from 'body-parser'
+import express from "express";
+import 'express-async-errors'
+import { json } from "body-parser";
+import morgan from "morgan";
 
-const app = express()
-app.use(json())
+import { currentUserRouter } from "./routes/current-user";
+import { signupRouter } from "./routes/signup";
+import { signinRouter } from "./routes/signin";
+import { signoutRouter } from "./routes/signout";
 
-app.get('/api/users/currentUser',(req,res)=>{
-    res.send("hi there")
-})
+import { errorHandler } from "./middlewares/error-handler";
+import { NotFoundError } from "./errors/not-found-error";
 
+const app = express();
+app.use(json());
+app.use(morgan("dev"));
 
-app.listen(3000,()=>{
-    console.log("Listening on port 3000...");
-    
-}) 
+app.use(currentUserRouter);
+app.use(signupRouter);
+app.use(signinRouter);
+app.use(signoutRouter);
+
+app.all("*", async () => {
+	throw new NotFoundError();
+});
+
+app.use(errorHandler);
+
+app.listen(3000, () => {
+	console.log("Listening on port 3000....");
+});
