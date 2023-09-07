@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import { RequestValidationError } from "../errors/request-validation-error";
-import { DatabaseConnectionError } from "../errors/database-connection-error";
+import { BadRequestError } from "../errors/bad-request-error";
+import { User } from "../models/user";
 
 const router = express.Router();
 router.post(
@@ -17,13 +18,23 @@ router.post(
 		const errors = validationResult(req); //now errors contain an object if the above validation fails
 
 		if (!errors.isEmpty()) {
-			throw new RequestValidationError(errors.array())
+			throw new RequestValidationError(errors.array());
 		}
 
-		console.log("creating a user");
-		throw new DatabaseConnectionError()
+		const { email, password } = req.body;
+		const existingUser = await User.findOne({ email });
 
-		res.send({});
+		if (existingUser) {
+			// console.log("email already in use");
+			// return res.send({});
+			throw new BadRequestError('Email already exist')
+		}
+
+		// 'User.buildUser()' is same as 'new User' to create a new user
+		const user = User.buildUser({ email, password });
+		await user.save();
+
+		res.status(201).send(user)
 	}
 );
 
