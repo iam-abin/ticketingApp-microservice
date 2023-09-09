@@ -4,7 +4,7 @@ import { promisify } from "util";
 // 'scrypt' can be use to convert callback based 'scrypt' function to promise based, which is compactable with async await
 const scryptAsync = promisify(scrypt);
 
-export class Password {
+export class PasswordManage {
 	// static methods are method that we can access without creating an instance of the class
 	static async toHash(password: string) {
 		const salt = randomBytes(8).toString("hex");

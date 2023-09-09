@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Password } from "../../services/password";
+import { PasswordManage } from "../../services/password";
 
 // it is an interface that describe the properties that are required to create a new user
 interface UserAttributes {
@@ -23,20 +23,32 @@ interface UserDoc extends mongoose.Document {
 	// updatedAt:string
 }
 
-const userSchema = new mongoose.Schema({
-	email: {
-		type: String,
-		required: true,
+const userSchema = new mongoose.Schema(
+	{
+		email: {
+			type: String,
+			required: true,
+		},
+		password: {
+			type: String,
+			required: true,
+		},
 	},
-	password: {
-		type: String,
-		required: true,
-	},
-});
+	{
+		toJSON: { // to reformat id and remove password,__v from response when converting to json (we can also use other approaches)
+			transform(doc, ret) {
+				ret.id = ret._id;
+				delete ret._id;
+				delete ret.password;
+				delete ret.__v;
+			},
+		},
+	}
+);
 
 userSchema.pre("save", async function (done) {
 	if (this.isModified("password")) {
-		const hashed = await Password.toHash(this.get("password"));
+		const hashed = await PasswordManage.toHash(this.get("password"));
 		this.set("password", hashed);
 	}
 	done();
