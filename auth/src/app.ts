@@ -3,13 +3,13 @@ import "express-async-errors";
 import { json } from "body-parser";
 import morgan from "morgan";
 import cookieSession from "cookie-session";
+import { errorHandler, NotFoundError } from "@abitickets/common"; // my custom module
 
 import { currentUserRouter } from "./routes/current-user";
 import { signupRouter } from "./routes/signup";
 import { signinRouter } from "./routes/signin";
 import { signoutRouter } from "./routes/signout";
 
-import { errorHandler, NotFoundError } from "@abitickets/common"; // my custom module
 
 const app = express();
 
