@@ -10,6 +10,10 @@ declare global {
 	var signin: () => string[];
 }
 
+// telling jest to use our mock file ,ie, instead of using original NATS
+// if anything try to import original 'nats-wrapper' file, it redirect that import to our fake file
+jest.mock('../nats-wrapper')
+
 // Initialize and start the MongoDB memory-server before all tests start
 let mongo: any;
 beforeAll(async () => {
@@ -23,6 +27,7 @@ beforeAll(async () => {
 
 // before each test starts, we need to delete all data inside mongodb database
 beforeEach(async () => {
+	jest.clearAllMocks();
 	const collections = await mongoose.connection.db.collections();
 
 	for (let collection of collections) {
