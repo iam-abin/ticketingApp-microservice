@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: tickets-depl
+  name: orders-depl
 spec:
   replicas: 1
   selector:
     matchLabels: 
-      app: tickets
+      app: orders
   template: 
     metadata: 
       labels: 
-        app: tickets
+        app: orders
     spec: 
       containers: 
-        - name: tickets
-          image: abinv/tickets
+        - name: orders
+          image: abinv/orders
           env:
             - name: NATS_CLIENT_ID
               valueFrom:
-                fieldRef:
+                fieldRef: 
                   fieldPath: metadata.name
             - name: NATS_URL
               value: 'http://nats-srv:4222'
             - name: NATS_CLUSTER_ID
               value: ticketing
             - name: MONGO_URI
-              value: 'mongodb://tickets-mongo-srv:27017/tickets'
+              value: 'mongodb://orders-mongo-srv:27017/orders'
             - name: JWT_KEY
               valueFrom: 
                 secretKeyRef:

@@ -1,9 +1,6 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-// import request from "supertest";
-
-// import { app } from "../app";
 
 // // if we want to use signup() fn (after line 41 ) on the other test files we need to declare it globally
 declare global {
