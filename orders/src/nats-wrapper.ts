@@ -23,6 +23,8 @@ class NatsWrapper {
 			});
 
 			this.client.on("error", (err) => {
+				console.log(`Error when cconnecting to nats ${err}`);
+				
 				reject(err);
 			});
 		});

@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 import { Order, OrderStatus } from "../models/order";
 
-
 // interface describes properties used to create a ticket
 interface TicketAttributes {
+	id: string;
 	title: string;
 	price: number;
 }
@@ -47,31 +47,34 @@ const ticketSchema = new mongoose.Schema(
 
 // 'statics' to directly add a new method to ticket model
 ticketSchema.statics.build = (attributes: TicketAttributes) => {
-	return new Ticket(attributes);
+	return new Ticket({
+		_id: attributes.id,
+		title: attributes.title,
+		price: attributes.price,
+	});
 };
 
 // 'method' is add a new method to a document
-ticketSchema.methods.isReserved = async function(){
+ticketSchema.methods.isReserved = async function () {
 	// in this function 'this' keyword represent ticket document that we just called 'isReserved' on
 
+	// Run query to look at all orders. Find an order where the ticket
+	// is the ticket we just found *and* the orders status is *not* cancelled.
+	// if we find an order from that it means the ticket *is* reserved
+	const existingOrder = await Order.findOne({
+		ticket: this,
+		status: {
+			$in: [
+				OrderStatus.Created,
+				OrderStatus.AwaitingPayment,
+				OrderStatus.Complete,
+			],
+		},
+	});
 
-	// Run query to look at all orders. Find an order where the ticket 
-		// is the ticket we just found *and* the orders status is *not* cancelled.
-		// if we find an order from that it means the ticket *is* reserved
-		const existingOrder = await Order.findOne({
-			ticket: this,
-			status:{
-				$in: [
-					OrderStatus.Created,
-					OrderStatus.AwaitingPayment,
-					OrderStatus.Complete
-				]
-			}
-		})
-
-		// if 'existingOrder' contains value then, !existingOrder gives 'false' then again. !false gives 'true'
-		return !!existingOrder;
-}
+	// if 'existingOrder' contains value then, !existingOrder gives 'false' then again. !false gives 'true'
+	return !!existingOrder;
+};
 
 const Ticket = mongoose.model<TicketDocument, TicketModel>(
 	"Ticket",
