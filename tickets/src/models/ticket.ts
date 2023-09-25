@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 
+// interface describes properties used to create a ticket
 interface TicketAttributes {
 	title: string;
 	price: number;
 	userId: string;
 }
 
+//interface describes properties  a saved ticket document has
 interface TicketDocument extends mongoose.Document {
 	title: string;
 	price: number;
@@ -13,7 +15,9 @@ interface TicketDocument extends mongoose.Document {
 	// createdAt: string
 }
 
+//interface describes properties  an overall model or collection has
 interface TicketModel extends mongoose.Model<TicketDocument> {
+	// build method is used to make validation or type checking on arguments used to create ticket document
 	build(attributes: TicketAttributes): TicketDocument;
 }
 
