@@ -5,6 +5,8 @@ import { natsWrapper } from "./nats-wrapper";
 import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
 import { TicketUpdatedListner } from "./events/listeners/ticket-updated-listner";
 
+import { ExpirationCompleteListner } from "./events/listeners/expiration-complete-listner";
+
 const start = async () => {
 	// env variables are set in deployment.yalm files
 	//if we do not set jwt_key
@@ -45,6 +47,8 @@ const start = async () => {
 		// it is used to listen to incomming events
 		new TicketCreatedListener(natsWrapper.client).listen()
 		new TicketUpdatedListner(natsWrapper.client).listen()
+
+		new ExpirationCompleteListner(natsWrapper.client).listen()
 
 		await mongoose.connect(process.env.MONGO_URI);
 		console.log("connected to mongodb");

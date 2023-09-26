@@ -35,12 +35,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata: 
-  name: tickets-srv
+  name: orders-srv
 spec: 
   selector: 
-    app: tickets
+    app: orders
   ports: 
-    - name: tickets
+    - name: orders
       protocol: TCP
       port: 3000
       targetPort: 3000
