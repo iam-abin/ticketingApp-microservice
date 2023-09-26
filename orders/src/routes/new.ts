@@ -16,7 +16,7 @@ import { natsWrapper } from "../nats-wrapper";
 
 const router = express.Router();
 
-const EXPIRATION_TIME_SECONDS = 15 * 60; // 15 seconds *60 ie, 15 minutes
+const EXPIRATION_TIME_SECONDS = 1 * 60; // 1 seconds *60 ie, 1 minutes
 
 router.post(
 	"/api/orders",
@@ -42,7 +42,7 @@ router.post(
 		const isReserved = await ticket.isReserved(); // isReserved is a function defined in ticket document
 
 		if (isReserved) {
-			throw new BadRequestError("icket is already reserved");
+			throw new BadRequestError("ticket is already reserved");
 		}
 		// Calculate an expiration date for this order
 		const expiration = new Date();
