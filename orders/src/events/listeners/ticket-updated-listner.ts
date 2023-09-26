@@ -8,8 +8,14 @@ export class TicketUpdatedListner extends Listener<TicketUpdatedEvent> {
 	subject: Subjects.TicketUpdated = Subjects.TicketUpdated;
 	queueGroupName = queueGroupName;
 	async onMessage(data: TicketUpdatedEvent["data"], msg: Message) {
+
+		// 'findByEvent' defined inside ticket model checks incomming ie, published 'version-1' exist to solves concurrency issue
+
+		// when an event come in 'out of order' of version we always going 
+		// to bounce the outof order event -> process the correct on -> the eventually reissues 
+		// the bounced one after 5 seconds and apply it to the database
 		const { id, title, price } = data;
-		const ticket = await Ticket.findById(id);
+		const ticket = await Ticket.findByEvent(data)
 
 		if (!ticket) {
 			throw new Error("Ticket not found");

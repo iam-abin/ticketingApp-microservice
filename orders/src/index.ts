@@ -42,6 +42,7 @@ const start = async () => {
 		process.on("SIGINT", () => natsWrapper.client.close()); //sent to a process by the operating system to interrupt its normal execution
 		process.on("SIGTERM", () => natsWrapper.client.close()); // generic termination signal used to cause a process to exit.
 
+		// it is used to listen to incomming events
 		new TicketCreatedListener(natsWrapper.client).listen()
 		new TicketUpdatedListner(natsWrapper.client).listen()
 
