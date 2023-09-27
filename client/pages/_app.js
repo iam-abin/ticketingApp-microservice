@@ -17,7 +17,9 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
 	return (
 		<div>
 			<Header currentUser={currentUser} />
-			<Component {...pageProps} />
+			<div className="container">
+				<Component currentUser={currentUser} {...pageProps} />
+			</div>
 		</div>
 	);
 };
@@ -27,10 +29,14 @@ AppComponent.getInitialProps = async (appContext) => {
 
 	const client = buildClient(appContext.ctx);
 	const { data } = await client.get("/api/users/currentuser");
-	// some pages dont have getInitialProps()
+	// some pages don't have getInitialProps()
 	let pageProps = {};
 	if (appContext.Component.getInitialProps) {
-		pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+		pageProps = await appContext.Component.getInitialProps(
+			appContext.ctx,
+			client,
+			data.currentUser
+		);
 	}
 
 	console.log("hi", pageProps);
@@ -41,3 +47,7 @@ AppComponent.getInitialProps = async (appContext) => {
 };
 
 export default AppComponent;
+
+// appContext is a Next.js-specific object that provides information and context for the current page request,
+// and appContext.ctx is a property within it that contains the context-specific data you might need for
+//  data fetching or other operations.
