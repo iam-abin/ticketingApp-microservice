@@ -10,6 +10,8 @@ import { ExpirationCompleteListner } from "./events/listeners/expiration-complet
 import { PaymentCreatedListener } from "./events/listeners/payment-created-listeners";
 
 const start = async () => {
+	console.log("starting....");
+	
 	// env variables are set in deployment.yalm files
 	//if we do not set jwt_key
 	if (!process.env.JWT_KEY) {
