@@ -45,7 +45,7 @@ router.post(
 
 		try {
 			const charge = await stripe.paymentIntents.create({
-				amount: order.price * 100, // 10000 paise = 100 INR
+				amount: order.price*100, // 10000 paise = 100 INR
 				currency: "usd",
 				payment_method_types: ["card"],
 			});
