@@ -14,7 +14,6 @@ export default ({ req }) => {
 			// not attach them with request from server by default
 			headers: req.headers,
 		});
-		// return data;
 	} else {
 		// we are on the browser
 		// request can be made with a base url.(browser will put the base url)
