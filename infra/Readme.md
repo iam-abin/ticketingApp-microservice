@@ -64,7 +64,7 @@ Cleaning up...
  	cd k8s/stateless
 	kubectl apply -f .
  	``` 
--applying ingress-service.yaml file show some warning an do not apply so,
+- applying ingress-service.yaml file show some warning an do not apply so,
 	instead of applying ingress-service.yaml do,
 	so,
 	to enable and configure the NGINX Ingress Controller,
