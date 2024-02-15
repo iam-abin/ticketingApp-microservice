@@ -82,12 +82,12 @@ skaffold dev
 2. build a new image of them again,
  	```
  	cd admin/
- 	docker build -t abinv/admin
+ 	docker build -t abinv/admin .
  	```
  	
  	```
  	cd auth/
- 	docker build -t abinv/auth
+ 	docker build -t abinv/auth .
  	``` 
  
  
