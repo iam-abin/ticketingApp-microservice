@@ -21,6 +21,26 @@ Cleaning up...
 
 === 									=============	to solve this Error  =============
 
+List all images 
+```
+docker images -q
+```
+Delete all images
+```
+docker rmi $(docker images -q) -f
+```
+Delete all volumes
+```
+docker volume prune -f
+```
+or 
+
+```
+docker system prune -a --volumes
+```
+
+=======maybe will show deployment failed again so, 
+
 - removes all stopped containers, all networks not used by at least one container, all volumes not used by at least one container, and all images without at least one container associated with them,
 
 	```
@@ -75,6 +95,12 @@ Cleaning up...
 - in root directory,
 ```
 skaffold dev
+```
+
+- to see ingress description
+
+```
+kubectl describe ingress ingress-service
 ```
 =======maybe will show deployment failed again so, 
 
